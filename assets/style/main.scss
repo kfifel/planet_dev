@@ -1,0 +1,20 @@
+@import "tailwind";
+
+
+body>section{
+  min-height: 100vh!important;
+}
+
+body>section.sidebar{
+  width: 15vw;
+}
+
+body section.main{
+  width: 85vw;
+  &>.main-content{
+    min-height: 80vh;
+  }
+  & .a-h-10{
+    min-height: 10vh;
+  }
+}
