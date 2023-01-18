@@ -31,7 +31,7 @@ create table if not exists category(
 create table if not exists article(
     `id` int(11) primary key auto_increment,
     `title` varchar(255) not null ,
-    `content` BLOB not null, -- BLOB binary large object
+    `content` TEXT not null, -- BLOB binary large object
     `published_date` date not null,
     `category_id` int(11) not null ,
     `author_id` int(11) not null ,
