@@ -18,7 +18,8 @@ class auth{
         {
             session_start();
             $_SESSION['admin'] = new Admin(...$res);
-            header("Location: ../../admin/dashboard.php");
+            var_dump($_SESSION['admin']);
+            header("Location: ../../src/admin/dashboard.php");
         }
         else
         {
@@ -28,12 +29,24 @@ class auth{
             if($res)
             {
                 $_SESSION['user'] = new User(...$res);
-                header("Location: ../../user/dashboard.php");
+                header("Location: ../../src/user/dashboard.php");
+            }
+            else
+            {
+                $_SESSION['error'] = 'Email or password incorrect!';
+                header("Location: ../../index.php");
             }
         }
+    }
+
+    public function logout():void
+    {
+        session_destroy();
+        header("Location: http://localhost:8080");
     }
 }
 
 
 $auth = new auth();
 if(isset($_POST['login'])) $auth->login();
+if(isset($_POST['logout'])) $auth->logout();
