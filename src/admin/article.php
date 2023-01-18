@@ -93,29 +93,31 @@
                     <div class="px-6 py-6 lg:px-8">
                         <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Adding New Articles</h3>
                         <div class="flex justify-between" id="progressbarArticles">
-                            <label class="bg-blue-500 rounded-badge p-2 text-white text-xs hidden">
+                            <button id="previous" onclick="showPreviousArticle()" class="bg-blue-500 rounded-badge p-2 text-white text-xs hidden  disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200">
                                 <i class="fas fa-arrow-left"></i> Previous
-                            </label>
+                            </button>
                             <span class="bg-blue-500 rounded-badge p-2 text-white text-xs hidden" id="countArticles">1</span>
-                            <label class="bg-blue-500 rounded-badge p-2 text-white text-xs hidden">
+                            <button id="next" onclick="showNextArticle()" class="bg-blue-500 rounded-badge p-2 text-white text-xs hidden  disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200" disabled>
                                 Next <i class="fas fa-arrow-right"></i>
-                            </label>
+                            </button>
                         </div>
                         <form class="space-y-6 d-flex">
                             <div class="form-control my-5">
                                 <div>
                                     <label for="article-title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Article title</label>
-                                    <input type="text" name="article-title" id="article-title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="exemple@exemple.com" required>
+                                    <input type="text" onblur="validateTitle()" name="article-title" id="article-title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="title of the article here please" required>
+                                    <span id="title-validation" class=""></span>
                                 </div>
                                 <div>
                                     <label for="article-content" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your content</label>
-                                    <textarea name="article-content" id="article-content" placeholder="Article Content ..." class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required></textarea>
+                                    <textarea name="article-content" onblur="validateContent()" id="article-content" placeholder="Article Content ..." class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required></textarea>
+                                    <span id="content-validation" class=""></span>
                                 </div>
 
                                 <div>
                                     <label for="article-author" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select the Author</label>
                                     <select name="article-author" id="article-author" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
-                                        <option value="" selected></option>
+                                        <option value="" selected>select an author</option>
 
                                         <?php
                                         $authors = $_SESSION['admin']->adminController->getAllAuthor();
@@ -127,11 +129,12 @@
                                         endforeach;
                                         ?>
                                     </select>
+                                    <span id="author-validation" class=""></span>
                                 </div>
                                 <div>
-                                    <label for="article-category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select the Author</label>
+                                    <label for="article-category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select the Category</label>
                                     <select name="article-category" id="article-category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
-                                        <option value="" selected></option>
+                                        <option value="" selected>select a category</option>
 
                                         <?php
                                         $categories = $_SESSION['admin']->adminController->getAllCategory();
@@ -143,10 +146,11 @@
                                         endforeach;
                                         ?>
                                     </select>
+                                    <span id="category-validation" class=""></span>
                                 </div>
                             </div>
                             <a href="#" class="mt-7 text-blue-800" onclick="addArticleField(event)">Add another article</a>
-                            <button type="button" name="save" onclick="saveArticle()" class="w-full text-blue-600 hover:text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                            <button type="button" name="save" onclick="saveArticle()" class="w-full text-blue-600 hover:text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center outline ">
                                 Save articles
                             </button>
                         </form>
