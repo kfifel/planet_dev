@@ -46,7 +46,7 @@
             <div class="flex justify-between align-center my-7 ">
                 <div class="">
                     <i class="fas fa-search"></i>
-                    <input class="rounded py-1" type="text" id="search">
+                    <label for="search"><input class="rounded py-1" type="text" id="search" placeholder="search bar ..."></label>
                 </div>
                 <div>
                     <label class="btn btn-primary py-0" data-modal-target="authentication-modal" data-modal-toggle="authentication-modal"  >add article</label>
@@ -57,22 +57,40 @@
                     <!-- head -->
                     <thead>
                     <tr>
-                        <th></th>
-                        <th>Name</th>
-                        <th>Job</th>
-                        <th>Favorite Color</th>
+                        <th>title</th>
+                        <th>author</th>
+                        <th>published date</th>
+                        <th>actions</th>
                     </tr>
                     </thead>
                     <tbody>
                     <?php
-                        //$_SESSION['admin']->getAllArticle();
+                        $articles = $_SESSION['admin']->getAllArticle();
+                        foreach ($articles as $article):
                     ?>
                     <tr>
-                        <th>3</th>
-                        <td>Brice Swyre</td>
-                        <td>Tax Accountant</td>
-                        <td>Red</td>
+                        <td><?= $article['title'] ?></td>
+                        <td><?= $article['username'] ?></td>
+                        <td><?= $article['published_date'] ?></td>
+                        <td>
+
+                            <div class="flex gap-8">
+                                <button class=" text-green-600 bg-white ">
+                                    <i class="fas fa-pen"></i>
+                                </button>
+
+                                <button class=" text-red-700 bg-white ">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+
+                                <button class=" text-blue-700 bg-white ">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+
+                        </td>
                     </tr>
+                    <?php endforeach ?>
                     </tbody>
                 </table>
             </div>
