@@ -1,24 +1,25 @@
 <?php
 
 declare(strict_types=1);
-require_once "../includes/autoload.php";
 
 class Admin extends Person
 {
     protected string $password;
     protected string $email;
 
+    public AdminController $adminController;
 
     public function __construct(int|null $id, string $first_name, string $last_name, string $password = '', string $email ='')
     {
         $this->email = $email;
         $this->password = hash("sha256", $password);
         parent::__construct($id, $first_name, $last_name);
+        $this->adminController = new AdminController();
     }
 
 
 
-    public function createArticle(Article $article): bool
+    public function createArticle(array $article): bool
     {
         return false;
     }
@@ -37,7 +38,7 @@ class Admin extends Person
         return null;
     }
 
-    public function updatArticle( $id, Article $article): bool
+    public function updateArticle( $id, Article $article): bool
     {
 
         return false;
@@ -46,8 +47,14 @@ class Admin extends Person
 
     public function getAllArticle(): array
     {
-
-        return [];
+        return Database::connect()->query("
+                select a.id as id, a.title as title, a.content as content, a.published_date as published_date, c.name as category, concat(a2.last_name , ' ', a2.first_name) as username
+                from article a 
+                    inner join author a2 on a.author_id = a2.id
+                    inner join category c on a.category_id = c.id  
+                    ")
+            ->fetchAll(PDO::FETCH_ASSOC)
+        ;
     }
 
 
@@ -63,4 +70,3 @@ class Admin extends Person
         return (bool) Database::connect()->query($query);
     }
 }
-
