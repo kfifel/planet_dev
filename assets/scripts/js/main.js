@@ -33,7 +33,7 @@ function addArticleField(event){
 function validateContent() {
     let content = document.getElementById("article-content")
     let notify = document.getElementById("content-validation")
-    let contentRegex = /^[A-Za-z0-9\s\.\?,!]{50,60000}$/;
+    let contentRegex = /^[A-Za-z0-9\s\.\?,!()\-\–'":]{50,60000}$/;
 
     if( contentRegex.test(content.value) ){
         notify.innerText = "No problem here";
@@ -47,6 +47,7 @@ function validateContent() {
         contentValidation = false;
     }
 }
+
 function validateTitle() {
     let title = document.getElementById("article-title")
     let notify = document.getElementById("title-validation")
@@ -112,17 +113,6 @@ function resetForm() {
 }
 
 
-async function saveArticle() {
-    validateForm()
-
-    if(titleValidation && contentValidation && authorValidation && categoryValidation && indexArticle === current){
-        articles.push(getFormData());
-        console.log(articles)
-        const response = await postMapping("http://localhost:8080/src/includes/router.php?createArticles", articles);
-        console.log(await response.text());
-    }
-}
-
 function showNextArticle(){
         if(current === indexArticle){
             document.getElementById("next").setAttribute("disabled","disabled")
@@ -145,7 +135,7 @@ function showNextArticle(){
 function showPreviousArticle(){
 
     if( current === 0) {
-        alert(current)
+        alert("impossible")
         document.getElementById("previous").setAttribute("disabled", "disabled");
     }
     if( current <= indexArticle && current > 0 ){
@@ -172,9 +162,100 @@ function showArticle(){
 
 }
 
-function check() {
-    document.querySelectorAll("#check:checked").length > 0 ?
-        document.querySelector('body').style.backgroundColor="black"
-        :
-        document.querySelector('body').style.backgroundColor="white"
+
+async function saveArticle() {
+    validateForm()
+
+    if(titleValidation && contentValidation && authorValidation && categoryValidation && indexArticle === current){
+        articles.push(getFormData());
+        console.log(articles)
+        const response = await postMapping("http://localhost:8080/src/includes/router.php?createArticles", articles)
+        if(response.ok){
+            const data = await response.text();
+            if(data === 'true'){
+                Swal.fire({
+                    position: 'center-center',
+                    icon: 'success',
+                    title: 'Article has been saved',
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(
+                    setTimeout(()=>{
+                            window.location.href = "http://localhost:8080/src/admin/article.php"
+                        },
+                        2000
+                    )
+                )
+            }else{
+                Swal.fire({
+                    icon: 'error',
+                    text: 'Something went wrong!',
+                    timer: 1500
+                })
+            }
+        } else {
+            Swal.fire({
+                icon: 'error',
+                text: 'There was an error with the request!',
+                timer: 1500
+            })
+        }
+
+    }
+}
+
+function editArticle(id) {
+}
+
+function overviewArticle(id) {
+}
+
+function deleteArticle(id) {
+    const notify = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-error ml-4',
+            cancelButton: 'btn btn-success'
+        },
+        buttonsStyling: false
+    })
+
+    notify.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            getMapping(`http://localhost:8080/src/includes/router.php?deleteArticles=1&id=${id}`)
+                .then(res=> res.text())
+                .then(data=>{
+                    console.log(data)
+                    if(data === "true")
+                        notify.fire(
+                            'Deleted!',
+                            'Your file has been deleted.',
+                            'success'
+                        )
+                    else
+                        notify.fire(
+                            'Error !',
+                            'some error is occurred! article is not deleted !',
+                            'error'
+                        )
+                })
+        } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === Swal.DismissReason.cancel
+        ) {
+            notify.fire(
+                'Cancelled',
+                'Your imaginary file is safe :)',
+                'error'
+            )
+        }
+    })
+
 }
