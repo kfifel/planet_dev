@@ -49,7 +49,7 @@
                     <label for="search"><input class="rounded py-1" type="text" id="search" placeholder="search bar ..."></label>
                 </div>
                 <div>
-                    <label class="btn btn-primary py-0" data-modal-target="authentication-modal" data-modal-toggle="authentication-modal"  >add article</label>
+                    <label class="bg-blue-400 px-5 py-2 rounded-lg" data-modal-target="authentication-modal" data-modal-toggle="authentication-modal"  >add article</label>
                 </div>
             </div>
             <div class="overflow-x-auto">
@@ -75,15 +75,15 @@
                         <td>
 
                             <div class="flex gap-8">
-                                <button class=" text-green-600 bg-white ">
+                                <button class="bg-transparent text-green-600 bg-white" onclick="editArticle(<?=$article['id']?>)">
                                     <i class="fas fa-pen"></i>
                                 </button>
 
-                                <button class=" text-red-700 bg-white ">
+                                <button class="bg-transparent text-red-700 bg-white" onclick="deleteArticle(<?=$article['id']?>)">
                                     <i class="fas fa-trash"></i>
                                 </button>
 
-                                <button class=" text-blue-700 bg-white ">
+                                <button class="bg-transparent text-blue-700 bg-white" onclick="overviewArticle(<?=$article['id']?>)">
                                     <i class="fas fa-eye"></i>
                                 </button>
                             </div>
