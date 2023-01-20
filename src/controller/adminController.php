@@ -15,13 +15,17 @@ class AdminController
 
    public function createArticles(array $articles):void
    {
-      $saved = 0;
-      echo "Back-end active";
-      die;
+      $res = 'true';
       foreach ($articles as $article){
           $article['title'] = htmlspecialchars( $article['title'] );
-           //$_SESSION['admin']->createArticle($article);
+          $article['content'] = htmlspecialchars( $article['content'] );
+          try {
+                $_SESSION['admin']->createArticle($article);
+              }
+              catch (Exception $e){
+                  $res = 'false';
+              }
       }
-
+      echo $res;
    }
 }

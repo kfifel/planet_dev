@@ -21,14 +21,32 @@ class Admin extends Person
 
     public function createArticle(array $article): bool
     {
-        return false;
+        if( !empty($article['title']) && !empty($article['content']) && !empty($article['author'])  && !empty($article['category'])
+            && is_numeric($article['author']) && is_numeric($article['category'])
+        ):
+            $query = "insert into article 
+                (id, title, content, published_date, category_id, author_id) 
+                    values
+                (null, :title , :content, :published_date, :category_id, :author_id)";
+            $sth = Database::connect()->prepare($query);
+
+            $sth->bindValue(':title', $article['title']);
+            $sth->bindValue(':content', $article['content']);
+            $sth->bindValue(':published_date', date("Y-m-d") );
+            $sth->bindValue(':author_id', $article['author'] );
+            $sth->bindValue(':category_id', $article['category']);
+            return $sth->execute();
+        else:
+            return false;
+        endif;
     }
 
 
-    public function deleteArticle(): bool
+    public function deleteArticle(int $id): void
     {
-
-        return false;
+        echo Database::connect()->query("delete from article where id = $id")?
+            "true"
+            : "false";
     }
 
 
