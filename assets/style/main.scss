@@ -12,6 +12,7 @@ body>section.sidebar{
 body section.main{
   width: 85vw;
   &>.main-content{
+    padding: 2rem;
     min-height: 80vh;
   }
   & .a-h-10{
