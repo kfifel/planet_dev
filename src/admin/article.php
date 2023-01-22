@@ -46,15 +46,15 @@
             <div class="flex justify-between align-center my-7 ">
                 <div class="">
                     <i class="fas fa-search"></i>
-                    <label for="search"><input class="rounded py-1" type="text" id="search" placeholder="search bar ..."></label>
+                    <label for="search"><input onkeyup="searchArticles()" class="rounded py-1" type="text" id="search-article" placeholder="search bar ..."></label>
+                    <div class="text-red-700" id="notify-search-article"></div>
                 </div>
                 <div>
-                    <label class="bg-blue-400 px-5 py-2 rounded-lg" data-modal-target="authentication-modal" data-modal-toggle="authentication-modal"  >add article</label>
+                    <label class="bg-blue-400 px-5 py-2 rounded-lg" data-modal-target="article-modal" data-modal-toggle="article-modal"  >add article</label>
                 </div>
             </div>
             <div class="overflow-x-auto">
                 <table class="table table-zebra w-full">
-                    <!-- head -->
                     <thead>
                     <tr>
                         <th>title</th>
@@ -63,19 +63,24 @@
                         <th>actions</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="body-articles">
                     <?php
                         $articles = $_SESSION['admin']->getAllArticle();
                         foreach ($articles as $article):
                     ?>
                     <tr>
                         <td><?= $article['title'] ?></td>
-                        <td><?= $article['username'] ?></td>
+                        <td><?= $article['author'] ?></td>
                         <td><?= $article['published_date'] ?></td>
                         <td>
 
                             <div class="flex gap-8">
-                                <button class="bg-transparent text-green-600 bg-white" onclick="editArticle(<?=$article['id']?>)">
+                                <button
+                                        class="bg-transparent text-green-600 bg-white"
+                                        data-modal-target="article-modal"
+                                        data-modal-toggle="article-modal"
+                                        onclick="editArticle(<?=$article['id']?>)"
+                                >
                                     <i class="fas fa-pen"></i>
                                 </button>
 
@@ -100,16 +105,16 @@
 
 
 
-        <div id="authentication-modal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full">
+        <div id="article-modal" tabindex="-1" aria-hidden="true" class="fixed top-[50%] left-[50%] right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full">
             <div class="relative w-full h-full max-w-md md:h-auto">
                 <!-- Modal content -->
                 <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                    <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-hide="authentication-modal">
+                    <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-hide="article-modal">
                         <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                         <span class="sr-only">Close modal</span>
                     </button>
                     <div class="px-6 py-6 lg:px-8">
-                        <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Adding New Articles</h3>
+                        <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white" id="title-model">Adding New Articles</h3>
                         <div class="flex justify-between" id="progressbarArticles">
                             <button id="previous" onclick="showPreviousArticle()" class="bg-blue-500 rounded-badge p-2 text-white text-xs hidden  disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200">
                                 <i class="fas fa-arrow-left"></i> Previous
@@ -168,7 +173,7 @@
                                 </div>
                             </div>
                             <a href="#" class="mt-7 text-blue-800" onclick="addArticleField(event)">Add another article</a>
-                            <button type="button" name="save" onclick="saveArticle()" class="w-full text-blue-600 hover:text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center outline ">
+                            <button type="button" id="submit-article" name="save" onclick="saveArticle()" class="w-full text-blue-600 hover:text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center outline ">
                                 Save articles
                             </button>
                         </form>
