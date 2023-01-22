@@ -52,7 +52,15 @@ class Admin extends Person
 
     public function getArticleById( $id): array
     {
-        return Database::connect()->query("select * from article where id=$id ")->fetch(PDO::FETCH_ASSOC);
+        return Database::connect()->query("
+                 select a.id as id, a.title as title, a.content as content, a.published_date as published_date,
+                       c.name as category, concat(a2.last_name , ' ', a2.first_name) as author, a2.id as id_author, c.id as id_category
+                from article a 
+                    inner join author a2 on a.author_id = a2.id
+                    inner join category c on a.category_id = c.id  
+                         where a.id=$id 
+                
+                ")->fetch(PDO::FETCH_ASSOC);
     }
 
 
