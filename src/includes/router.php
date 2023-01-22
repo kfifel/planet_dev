@@ -12,3 +12,9 @@ if(isset($_GET['createArticles']))  // "php://input" is a read-only stream that 
 
 if(isset($_GET['deleteArticles']))
     $_SESSION['admin']->deleteArticle($_GET['id']);
+
+if(isset($_GET['getAllArticles']))
+    echo json_encode($_SESSION['admin']->getAllArticle());
+
+if(isset($_GET['searchArticle']))
+    echo json_encode($_SESSION['admin']->searchArticle($_GET['searchArticle']));
