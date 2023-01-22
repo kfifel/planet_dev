@@ -6,7 +6,17 @@ let titleValidation = false;
 let contentValidation = false;
 let authorValidation = false;
 let categoryValidation = false;
-getAllArticles();
+const notify = Swal.mixin({
+    customClass: {
+        confirmButton: 'btn btn-error ml-4',
+        cancelButton: 'btn btn-success'
+    },
+    buttonsStyling: false
+})
+
+
+if(AllArticles.length === 0) getAllArticles();
+
 function addArticleField(event){
     event.preventDefault()
     validateForm();
@@ -208,22 +218,15 @@ function editArticle(id) {
     document.getElementById("article-content").value = article.content;
     document.getElementById("article-author").value = article.id_author;
     document.getElementById("article-category").value = article.id_category;
-    document.getElementById("submit-article").setAttribute('onclick', "updateArticle");
-    document.getElementById("title-model").value = "updating article";
-
+    document.getElementById("submit-article").setAttribute('onclick', `updateArticle(${id})`);
+    document.getElementById("submit-article").innerText = "Update article";
+    document.getElementById("title-model").innerText = "Updating article";
 
 }
 function overviewArticle(id) {
 }
 
 function deleteArticle(id) {
-    const notify = Swal.mixin({
-        customClass: {
-            confirmButton: 'btn btn-error ml-4',
-            cancelButton: 'btn btn-success'
-        },
-        buttonsStyling: false
-    })
 
     notify.fire({
         title: 'Are you sure?',
@@ -281,11 +284,36 @@ function getAllArticles() {
 
 function setArticles(data) {
     AllArticles = data;
-    insertArticlesToHtml(data);
 }
 
-function updateArticle() {
+function updateArticle(id) {
+    let article = getFormData();
+    article.id = id;
 
+    if(titleValidation && contentValidation && authorValidation && categoryValidation) {
+        postMapping("http://localhost:8080/src/includes/router.php?updateArticle=1", article)
+            .then(res => res.text())
+            .then(data => {
+                console.log(data)
+                if (data === "true") {
+                    notify.fire(
+                        'Updated!',
+                        'Your file has been updated.',
+                        'success'
+                    )
+                    setTimeout(()=>{
+                        window.location.href = "http://localhost:8080/src/admin/article.php";
+                    },
+                        2000
+                    )
+                } else
+                    notify.fire(
+                        'Error !',
+                        'some error is occurred! article is not updated !',
+                        'error'
+                    )
+            })
+    }
 }
 
 function searchArticlesById(id){
@@ -327,7 +355,11 @@ function insertArticlesToHtml(articlesToInsert) {
                         <td> ${article.published_date} </td>
                         <td>
                             <div class="flex gap-8">
-                                <button class="bg-transparent text-green-600 bg-white" onclick="editArticle(${article.id})">
+                                <button class="bg-transparent text-green-600 bg-white"
+                                        data-modal-target="article-modal"
+                                        data-modal-toggle="article-modal"
+                                        onclick="editArticle(${article.id})"
+                                    >
                                     <i class="fas fa-pen"></i>
                                 </button>
 
