@@ -1,11 +1,12 @@
-let indexArticle = 0
-let current = 0
-let articles = []
+let indexArticle = 0;
+let current = 0;
+let articles = [];
+let AllArticles = [];
 let titleValidation = false;
 let contentValidation = false;
 let authorValidation = false;
 let categoryValidation = false;
-
+getAllArticles();
 function addArticleField(event){
     event.preventDefault()
     validateForm();
@@ -33,7 +34,7 @@ function addArticleField(event){
 function validateContent() {
     let content = document.getElementById("article-content")
     let notify = document.getElementById("content-validation")
-    let contentRegex = /^[A-Za-z0-9\s\.\?,!()\-\–'":]{50,60000}$/;
+    let contentRegex = /^[A-Za-z0-9\s.?,!()\-–'":\[\]]{50,60000}$/;
 
     if( contentRegex.test(content.value) ){
         notify.innerText = "No problem here";
@@ -51,7 +52,7 @@ function validateContent() {
 function validateTitle() {
     let title = document.getElementById("article-title")
     let notify = document.getElementById("title-validation")
-    let titleRegex = /^[A-Za-z0-9\s]{10,100}$/;
+    let titleRegex = /^[A-Za-z0-9\s()]{10,100}$/;
 
     if( titleRegex.test(title.value) ){
         notify.innerText = "No problem here";
@@ -65,7 +66,6 @@ function validateTitle() {
         titleValidation = false
     }
 }
-
 
 function validateForm() {
     validateTitle()
@@ -111,7 +111,6 @@ function resetForm() {
     document.getElementById('article-content').value = ""
     document.getElementById('article-category').value = ""
 }
-
 
 function showNextArticle(){
         if(current === indexArticle){
@@ -162,7 +161,6 @@ function showArticle(){
 
 }
 
-
 async function saveArticle() {
     validateForm()
 
@@ -205,8 +203,16 @@ async function saveArticle() {
 }
 
 function editArticle(id) {
-}
+    let article = searchArticlesById(id);
+    document.getElementById("article-title").value = article.title;
+    document.getElementById("article-content").value = article.content;
+    document.getElementById("article-author").value = article.id_author;
+    document.getElementById("article-category").value = article.id_category;
+    document.getElementById("submit-article").setAttribute('onclick', "updateArticle");
+    document.getElementById("title-model").value = "updating article";
 
+
+}
 function overviewArticle(id) {
 }
 
@@ -233,12 +239,15 @@ function deleteArticle(id) {
                 .then(res=> res.text())
                 .then(data=>{
                     console.log(data)
-                    if(data === "true")
+                    if(data === "true"){
                         notify.fire(
                             'Deleted!',
                             'Your file has been deleted.',
                             'success'
                         )
+
+                        getAllArticles();
+                    }
                     else
                         notify.fire(
                             'Error !',
@@ -258,4 +267,83 @@ function deleteArticle(id) {
         }
     })
 
+}
+
+function getAllArticles() {
+    getMapping(`http://localhost:8080/src/includes/router.php?getAllArticles=1`)
+        .then( res => res.json())
+            .then( data => {
+                console.log(data)
+                setArticles(data)
+                }
+            )
+}
+
+function setArticles(data) {
+    AllArticles = data;
+    insertArticlesToHtml(data);
+}
+
+function updateArticle() {
+
+}
+
+function searchArticlesById(id){
+    let res = null;
+    AllArticles.forEach(e=>{
+        if(e.id === id)
+            res=e;
+    })
+    return res;
+}
+
+function searchArticles() {
+
+
+    let searchArticleValue = document.getElementById("search-article").value;
+    let reg = /^[a-zA-Z0-9\s]+$/
+    if(reg.test(searchArticleValue) || searchArticleValue === '' )
+    {
+        document.getElementById("notify-search-article").innerText = "";
+        getMapping(`http://localhost:8080/src/includes/router.php?searchArticle=${searchArticleValue}`)
+            .then(res => res.json())
+            .then(data => {
+                    insertArticlesToHtml(data)
+                }
+            )
+    }
+    else
+        document.getElementById("notify-search-article").innerText = "character and numbers is only allowed here";
+}
+
+function insertArticlesToHtml(articlesToInsert) {
+    const tableArticles = document.getElementById("body-articles")
+    let dataStructure = "";
+    articlesToInsert.forEach( article =>{
+        dataStructure+= `
+                    <tr>
+                        <td> ${article.title} </td>
+                        <td> ${article.author} </td>
+                        <td> ${article.published_date} </td>
+                        <td>
+                            <div class="flex gap-8">
+                                <button class="bg-transparent text-green-600 bg-white" onclick="editArticle(${article.id})">
+                                    <i class="fas fa-pen"></i>
+                                </button>
+
+                                <button class="bg-transparent text-red-700 bg-white" onclick="deleteArticle(${article.id})">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+
+                                <button class="bg-transparent text-blue-700 bg-white" onclick="overviewArticle(${article.id})">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+
+                        </td>
+                    </tr>
+        `
+    })
+
+    tableArticles.innerHTML = dataStructure;
 }
