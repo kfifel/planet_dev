@@ -16,7 +16,7 @@ if(isset($_GET['deleteArticles']))
     $_SESSION['admin']->deleteArticle($_GET['id']);
 
 if(isset($_GET['getAllArticles'])){
-    if(isset($_GET['sort']) && preg_match("/^[a-zA-Z]*$/", $_GET['sort']))
+    if(isset($_GET['sort']) && preg_match("/^[a-zA-Z_]*$/", $_GET['sort']))
         if(isset($_GET['meth'])  && preg_match("/^[a-zA-Z]*$/", $_GET['meth']))
             echo json_encode($_SESSION['admin']->getAllArticle( $_GET['sort'], $_GET['meth']));
         else
