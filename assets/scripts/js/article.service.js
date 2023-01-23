@@ -370,7 +370,6 @@ function insertArticlesToHtml(articlesToInsert) {
                                     >
                                     <i class="fas fa-pen"></i>
                                 </button>
-
                                 <button class="bg-transparent text-red-700 bg-white" onclick="deleteArticle(${article.id})">
                                     <i class="fas fa-trash"></i>
                                 </button>
@@ -386,4 +385,27 @@ function insertArticlesToHtml(articlesToInsert) {
     })
 
     tableArticles.innerHTML = dataStructure;
+}
+
+function sortArticles() {
+    let sortList = document.getElementById("sort-attr");
+    let sortMethod = document.getElementById("sort-meth");
+    let Url = 'http://localhost:8080/src/includes/router.php?getAllArticles=1';
+        if(['id', 'title', 'content', 'author', 'published_date'].includes(sortList.value))
+    {
+        Url += `&sort=${sortList.value}`;
+        if(['asc', 'desc'].includes(sortMethod.value)){
+            Url += `&meth=${sortMethod.value}`;
+        }
+        getMapping(Url)
+            .then(res=>res.json())
+                .then(data=>{
+                    setArticles(data)
+                    insertArticlesToHtml(data)
+                })
+    }
+    else
+    {
+        console.error("Not found");
+    }
 }

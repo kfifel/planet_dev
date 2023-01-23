@@ -105,7 +105,7 @@ class Admin extends Person
     }
 
 
-    public function getAllArticle( $order='id'): array
+    public function getAllArticle( $order='id', $priority='asc'): array
     {
         return Database::connect()->query("
                 select a.id as id, a.title as title, a.content as content, a.published_date as published_date, c.name as category,
@@ -113,7 +113,7 @@ class Admin extends Person
                 from article a 
                     inner join author a2 on a.author_id = a2.id
                     inner join category c on a.category_id = c.id 
-                order by $order
+                order by $order $priority
                     ")
             ->fetchAll(PDO::FETCH_ASSOC)
         ;
