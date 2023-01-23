@@ -48,5 +48,7 @@ class auth{
 
 
 $auth = new auth();
+if(!session_id())
+    session_start();
 if(isset($_POST['login'])) $auth->login();
-if(isset($_POST['logout'])) $auth->logout();
+if(isset($_GET['logout'])) $auth->logout();
