@@ -24,6 +24,7 @@ class AdminController
               }
               catch (Exception $e){
                   $res = 'false';
+                  break;
               }
       }
       echo $res;

@@ -8,6 +8,7 @@ class Admin extends Person
     protected string $email;
 
     public AdminController $adminController;
+    public CategoryController $categoryController;
 
     public function __construct(int|null $id, string $first_name, string $last_name, string $password = '', string $email ='')
     {
@@ -15,6 +16,7 @@ class Admin extends Person
         $this->password = hash("sha256", $password);
         parent::__construct($id, $first_name, $last_name);
         $this->adminController = new AdminController();
+        $this->categoryController = new CategoryController();
     }
 
 
@@ -108,7 +110,7 @@ class Admin extends Person
     public function getAllArticle( $order='id', $priority='asc'): array
     {
         return Database::connect()->query("
-                select a.id as id, a.title as title, a.content as content, a.published_date as published_date, c.name as category,
+                select a.id as id, a.title as title, a.content as content, CAST(a.published_date AS DATE) as published_date, c.name as category,
                        concat(a2.last_name , ' ', a2.first_name) as author, a2.id as id_author, c.id as id_category
                 from article a 
                     inner join author a2 on a.author_id = a2.id

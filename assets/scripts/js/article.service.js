@@ -169,7 +169,6 @@ async function saveArticle() {
 
     if(titleValidation && contentValidation && authorValidation && categoryValidation && indexArticle === current){
         articles.push(getFormData());
-        console.log(articles)
         const response = await postMapping("http://localhost:8080/src/includes/router.php?createArticles", articles)
         if(response.ok){
             const data = await response.text();
@@ -249,7 +248,6 @@ function deleteArticle(id) {
             getMapping(`http://localhost:8080/src/includes/router.php?deleteArticles=1&id=${id}`)
                 .then(res=> res.text())
                 .then(data=>{
-                    console.log(data)
                     if(data === "true"){
                         notify.fire(
                             'Deleted!',
@@ -284,7 +282,6 @@ function getAllArticles() {
     getMapping(`http://localhost:8080/src/includes/router.php?getAllArticles=1`)
         .then( res => res.json())
         .then( data => {
-                console.log(data)
                 setArticles(data)
             }
         )
@@ -302,7 +299,6 @@ function updateArticle(id) {
         postMapping("http://localhost:8080/src/includes/router.php?updateArticle=1", article)
             .then(res => res.text())
             .then(data => {
-                console.log(data)
                 if (data === "true") {
                     notify.fire(
                         'Updated!',
@@ -397,9 +393,11 @@ function sortArticles() {
         if(['asc', 'desc'].includes(sortMethod.value)){
             Url += `&meth=${sortMethod.value}`;
         }
+        console.log(Url)
         getMapping(Url)
             .then(res=>res.json())
                 .then(data=>{
+                    console.log(data)
                     setArticles(data)
                     insertArticlesToHtml(data)
                 })

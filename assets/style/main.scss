@@ -6,11 +6,12 @@ body>section{
 }
 
 body>section.sidebar{
-  width: 15vw;
+  width: 12vw;
 }
 
 body section.main{
-  width: 85vw;
+  width: 88vw;
+  margin-left: 12vw;
   &>.main-content{
     padding: 2rem;
     min-height: 80vh;

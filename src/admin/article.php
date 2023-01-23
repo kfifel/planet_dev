@@ -40,21 +40,42 @@
             </ul>
         </div>
 
-        <h1 class="text-xl text-bold">Articles</h1>
+        <h1 class="text-2xl font-bold  my-6">Articles</h1>
 
         <div class="container mt-5 ml-7">
-            <div class="flex justify-between align-center my-7 ">
+            <div class="flex justify-between flex-wrap align-center my-7 gap-4 ">
                 <div class="">
                     <i class="fas fa-search"></i>
                     <label for="search"><input onkeyup="searchArticles()" class="rounded py-1" type="text" id="search-article" placeholder="search bar ..."></label>
                     <div class="text-red-700" id="notify-search-article"></div>
                 </div>
                 <div>
-                    <label class="bg-blue-400 px-5 py-2 rounded-lg" data-modal-target="article-modal" data-modal-toggle="article-modal"  >add article</label>
+                    <label for="sort-attr">
+                        Sort
+                    </label>
+                    <select id="sort-attr" onchange="sortArticles()" class="rounded py-1 px-4">
+                        <option value="id"></option>
+                        <option value="title">title</option>
+                        <option value="content">Content</option>
+                        <option value="author">author</option>
+                        <option value="published_date">published date</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="sort-meth">
+                        Order
+                    </label>
+                    <select id="sort-meth" onchange="sortArticles()" class="rounded py-1 px-4">
+                        <option value="asc">Ascending</option>
+                        <option value="desc">Descending</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="bg-blue-400 px-5 py-2 rounded-lg" onclick="restFormArticle()" data-modal-target="article-modal" data-modal-toggle="article-modal"  >add article</label>
                 </div>
             </div>
             <div class="overflow-x-auto">
-                <table class="table table-zebra w-full">
+                <table class="table table-zebra w-full drop-shadow-xl " id="tableArticles">
                     <thead>
                     <tr>
                         <th>title</th>
@@ -69,20 +90,20 @@
                         foreach ($articles as $article):
                     ?>
                     <tr>
-                        <td><?= $article['title'] ?></td>
-                        <td><?= $article['author'] ?></td>
-                        <td><?= $article['published_date'] ?></td>
-                        <td>
+                            <td><?= $article['title'] ?></td>
+                            <td><?= $article['author'] ?></td>
+                            <td><?= $article['published_date'] ?></td>
+                            <td>
 
-                            <div class="flex gap-8">
-                                <button
-                                        class="bg-transparent text-green-600 bg-white"
-                                        data-modal-target="article-modal"
-                                        data-modal-toggle="article-modal"
-                                        onclick="editArticle(<?=$article['id']?>)"
-                                >
-                                    <i class="fas fa-pen"></i>
-                                </button>
+                                <div class="flex gap-8">
+                                    <button
+                                            class="bg-transparent text-green-600 bg-white"
+                                            data-modal-target="article-modal"
+                                            data-modal-toggle="article-modal"
+                                            onclick="editArticle(<?=$article['id']?>)"
+                                    >
+                                        <i class="fas fa-pen"></i>
+                                    </button>
 
                                 <button class="bg-transparent text-red-700 bg-white" onclick="deleteArticle(<?=$article['id']?>)">
                                     <i class="fas fa-trash"></i>
@@ -172,7 +193,7 @@
                                     <span id="category-validation" class=""></span>
                                 </div>
                             </div>
-                            <a href="#" class="mt-7 text-blue-800" onclick="addArticleField(event)">Add another article</a>
+                            <a href="#" class="mt-7 text-blue-800" id="Add-another-article" onclick="addArticleField(event)">Add another article</a>
                             <button type="button" id="submit-article" name="save" onclick="saveArticle()" class="w-full text-blue-600 hover:text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center outline ">
                                 Save articles
                             </button>
@@ -193,6 +214,7 @@
 <?php
 include "./includes/scripts-js.php";
 ?>
+<script src="../../assets/scripts/js/article.service.js"></script>
 
 </body>
 </html>
