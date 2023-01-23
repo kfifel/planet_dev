@@ -4,9 +4,11 @@
         <div>
             Welcome back Mr <strong><?= $_SESSION['admin']->getFirstName() ?> </strong>
         </div>
-        <div>
-            logout
-        </div>
+        <a href="http://localhost:8080/src/controller/auth.php?logout=true">
+            <div class="font-bold">
+                logout
+            </div>
+        </a>
     </div>
 
 </nav>

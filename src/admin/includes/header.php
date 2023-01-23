@@ -18,5 +18,6 @@ if(!isset($_SESSION['admin']))
     <link href="https://cdn.jsdelivr.net/npm/daisyui@2.46.1/dist/full.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="../../assets/style/main.css">
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title><?=$title?></title>
 </head>
