@@ -5,7 +5,8 @@
             Welcome back Mr <strong><?= $_SESSION['admin']->getFirstName() ?> </strong>
         </div>
         <a href="http://localhost:8080/src/controller/auth.php?logout=true">
-            <div class="font-bold">
+            <div class="font-bold flex justify-center items-center gap-2 hover:text-blue-700">
+                <i class="fas fa-sign-out-alt"></i>
                 logout
             </div>
         </a>
