@@ -8,6 +8,7 @@ class auth{
     }
 
     public function login():void{
+        session_start();
         $email = $_POST['email'];
         $password = hash('sha256', $_POST['password']);
 
@@ -16,7 +17,6 @@ class auth{
 
         if($res)
         {
-            session_start();
             $_SESSION['admin'] = new Admin(...$res);
             var_dump($_SESSION['admin']);
             header("Location: ../../src/admin/dashboard.php");
