@@ -185,7 +185,7 @@ async function saveArticle() {
                     setTimeout(()=>{
                             window.location.href = "http://localhost:8080/src/admin/article.php"
                         },
-                        2000
+                        1500
                     )
                 )
             }else{
@@ -257,8 +257,11 @@ function deleteArticle(id) {
                             'Your file has been deleted.',
                             'success'
                         )
-
-                        getAllArticles();
+                        setTimeout(()=>{
+                                window.location.href = "http://localhost:8080/src/admin/article.php"
+                            },
+                            1500
+                        )
                     }
                     else
                         notify.fire(
@@ -311,7 +314,7 @@ function updateArticle(id) {
                     setTimeout(()=>{
                             window.location.href = "http://localhost:8080/src/admin/article.php";
                         },
-                        2000
+                        1000
                     )
                 } else
                     notify.fire(
@@ -398,11 +401,9 @@ function sortArticles() {
         if(['asc', 'desc'].includes(sortMethod.value)){
             Url += `&meth=${sortMethod.value}`;
         }
-        console.log(Url)
         getMapping(Url)
             .then(res=>res.json())
                 .then(data=>{
-                    console.log(data)
                     setArticles(data)
                     insertArticlesToHtml(data)
                 })

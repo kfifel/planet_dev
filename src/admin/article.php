@@ -40,7 +40,7 @@
             </ul>
         </div>
 
-        <h1 class="text-2xl font-bold  my-6">Articles</h1>
+        <h1 class="text-2xl my-6">Articles (<?= $_SESSION['admin']->getNumRowOfTable('article')?>) </h1>
 
         <div class="container mt-5 ml-7">
             <div class="flex justify-between flex-wrap align-center my-7 gap-4 ">
@@ -71,14 +71,14 @@
                     </select>
                 </div>
                 <div>
-                    <label class="bg-blue-400 px-5 py-2 rounded-lg" onclick="restFormArticle()" data-modal-target="article-modal" data-modal-toggle="article-modal"  >add article</label>
+                    <label class="bg-blue-400 px-5 py-2 rounded-lg hover:bg-blue-700 hover:text-white cursor-pointer" onclick="restFormArticle()" data-modal-target="article-modal" data-modal-toggle="article-modal"  >add article</label>
                 </div>
             </div>
             <div class="overflow-x-auto">
                 <table class="table table-zebra w-full drop-shadow-xl md:table-fixed sm:table-auto " id="tableArticles">
                     <thead>
                     <tr>
-                        <th>title</th>
+                        <th class="th1">title</th>
                         <th>author</th>
                         <th>published date</th>
                         <th>actions</th>
