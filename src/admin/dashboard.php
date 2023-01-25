@@ -16,7 +16,7 @@
 
 
 
-        <main class="main-content bg-yellow-600">
+        <main class="main-content bg-gray-200">
             <div>
                 <ul class="inline-flex items-center space-x-1 md:space-x-3">
                     <li class="inline-flex items-center">
@@ -34,10 +34,58 @@
                 </ul>
             </div>
 
-            <div class="container bg-red-200 ">
+            <div class="container">
 
-                <div>
-                    <h1 >statistics</h1>
+                <div class="p-6">
+                    <h1 class="text-2xl my-6">statistics</h1>
+
+                    <div class="flex flex-wrap gap-8 text-4xl">
+                        <div class="flex items-center gap-8 py-4 px-6  rounded-lg bg-gray-100">
+                            <div class="text-blue-300">
+                                <i class="fas fa-solid fa-newspaper"></i>
+                            </div>
+                            <div>
+                                <div class="text-xl font-medium text-black">Articles</div>
+                                <p class="text-slate-500">
+                                    <?= $_SESSION['admin']->getNumRowOfTable('article')?>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-8 py-4 px-6  rounded-lg bg-gray-100">
+                            <div class="text-blue-300">
+                                <i class="fas fa-solid fa-clipboard"></i>
+                                <i class=""></i>
+                            </div>
+                            <div>
+                                <div class="text-xl font-medium text-black">Category</div>
+                                <p class="text-slate-500">
+                                    <?= $_SESSION['admin']->getNumRowOfTable('category')?>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-8 py-4 px-6  rounded-lg bg-gray-100">
+                            <div class="text-blue-300">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                            <div>
+                                <div class="text-xl font-medium text-black">admin</div>
+                                <p class="text-slate-500">
+                                    <?= $_SESSION['admin']->getNumRowOfTable('admin')?>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-8 py-4 px-6 rounded-lg bg-gray-100">
+                            <div class="text-blue-300">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div>
+                                <div class="text-xl font-medium text-black">Author</div>
+                                <p class="text-slate-500">
+                                    <?= $_SESSION['admin']->getNumRowOfTable('author')?>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
