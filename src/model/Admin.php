@@ -141,6 +141,17 @@ class Admin extends Person
         return (bool) Database::connect()->query($query);
     }
 
+    public function getAllUsers(): array
+    {
+        return Database::connect()->query('select id, first_name, last_name, email from user')->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getAllAuthors(): array
+    {
+        return Database::connect()->query('select * from author')->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
     public function getNumRowOfTable(string $table):int
     {
         return Database::connect()->query("select count(`id`) as size from $table")->fetch(PDO::FETCH_ASSOC)['size'];
