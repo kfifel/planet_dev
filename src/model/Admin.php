@@ -140,4 +140,9 @@ class Admin extends Person
         $query = "insert into user value (null, '".$uer->getFirstName()."', '".$uer->getLastName()."', '".$uer->getEmail()."', '".$uer->getPassword()."')";
         return (bool) Database::connect()->query($query);
     }
+
+    public function getNumRowOfTable(string $table):int
+    {
+        return Database::connect()->query("select count(`id`) as size from $table")->fetch(PDO::FETCH_ASSOC)['size'];
+    }
 }
