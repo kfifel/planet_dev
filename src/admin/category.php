@@ -40,7 +40,7 @@ include "./includes/sidebar.php";
             </ul>
         </div>
 
-        <h1 class="text-xl text-bold my-4">Category</h1>
+        <h1 class="text-2xl my-6">Categories (<?= $_SESSION['admin']->getNumRowOfTable('category')?>) </h1>
 
         <div>
             <?php
@@ -85,10 +85,17 @@ include "./includes/sidebar.php";
             <div class="flex justify-between align-center my-7 ">
                 <div class="">
                     <i class="fas fa-search"></i>
-                    <label for="search"><input class="rounded py-1" type="text" id="search" placeholder="search bar ..."></label>
+                    <label for="search"><input class="rounded py-1" type="text" id="search" onkeyup="searchCategory()" placeholder="search bar ..."></label>
                 </div>
                 <div>
-                    <label class="bg-blue-400 px-5 py-2 rounded-lg" data-modal-target="authentication-modal" data-modal-toggle="authentication-modal"  >add category</label>
+                    <label
+                            class="bg-blue-400 px-5 py-2 rounded-lg"
+                            data-modal-target="authentication-modal"
+                            data-modal-toggle="authentication-modal"
+                            onclick="setEnvironmentAdd()"
+                    >
+                        add category
+                    </label>
                 </div>
             </div>
             <div class="overflow-x-auto">
@@ -96,8 +103,8 @@ include "./includes/sidebar.php";
                     <!-- head -->
                     <thead>
                     <tr>
-                        <th>name</th>
-                        <th>actions</th>
+                        <th class="cat-th1 th1">name</th>
+                        <th class="cat-th2 w-30">actions</th>
                     </tr>
                     </thead>
                     <tbody id="body-categories">
@@ -110,7 +117,12 @@ include "./includes/sidebar.php";
                             <td>
 
                                 <div class="flex gap-8">
-                                    <button class="bg-transparent text-green-600 bg-white" >
+                                    <button
+                                            class="bg-transparent text-green-600 bg-white"
+                                            data-modal-target="authentication-modal"
+                                            data-modal-toggle="authentication-modal"
+                                            onclick="setEnvironmentEdit(<?=$category['id']?>, `<?=$category['name']?>` )"
+                                    >
                                         <i class="fas fa-pen"></i>
                                     </button>
 
@@ -147,13 +159,13 @@ include "./includes/sidebar.php";
                         <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white" id="title-model">Adding New Category</h3>
                         <form class="space-y-6 d-flex" action="../controller/categoryController.php" method="post">
                             <div class="form-control my-5">
+                                <input type="hidden" name="id" id="category-id">
                                 <div>
                                     <label for="category-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category name</label>
-                                    <input type="text" onblur="" name="category-name" id="category-name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="title of the category here please" required>
-                                    <span id="title-validation" class=""></span>
+                                    <input type="text" onblur="" name="category-name" id="category-name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="name of the category" required>
                                 </div>
                             </div>
-                            <button type="submit" name="save-category" class="w-full text-blue-600 hover:text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center outline ">
+                            <button type="submit" name="save-category" id="submit-category" class="w-full text-blue-600 hover:text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center outline ">
                                 Save category
                             </button>
                         </form>
