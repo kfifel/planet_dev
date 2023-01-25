@@ -120,7 +120,7 @@ function showNextArticle(){
         document.getElementById("next").setAttribute("disabled","disabled")
         document.getElementById("previous").removeAttribute("disabled");
     }
-    else if( current < indexArticle && current >= 0 )
+    else if( current+1 < indexArticle && current >= 0 )
     {
         alert("in next")
         current++;
@@ -129,7 +129,9 @@ function showNextArticle(){
     }
     else
     {
-        alert('no element selected')
+        current++;
+        document.getElementById("countArticles").innerText = `${current+1}`
+        resetForm();
     }
 
 }
@@ -216,6 +218,7 @@ function editArticle(id) {
     document.getElementById("Add-another-article").classList.add("hidden");
 
 }
+
 
 function restFormArticle() {
     document.getElementById("article-title").value = "";
@@ -350,6 +353,7 @@ function searchArticles() {
 
 function insertArticlesToHtml(articlesToInsert) {
     const tableArticles = document.getElementById("body-articles")
+    tableArticles.innerText = " ";
     let dataStructure = "";
     articlesToInsert.forEach( article =>{
         dataStructure+= `
@@ -359,13 +363,14 @@ function insertArticlesToHtml(articlesToInsert) {
                         <td> ${article.published_date} </td>
                         <td>
                             <div class="flex gap-8">
-                                <button class="bg-transparent text-green-600 bg-white"
-                                        data-modal-target="article-modal"
-                                        data-modal-toggle="article-modal"
-                                        onclick="editArticle(${article.id})"
+                                 <button
+                                            class="bg-transparent text-green-600 bg-white"
+                                            data-modal-target="article-modal"
+                                            data-modal-toggle="article-modal"
+                                            onclick="editArticle(${article.id})"
                                     >
-                                    <i class="fas fa-pen"></i>
-                                </button>
+                                        <i class="fas fa-pen"></i>
+                                    </button>
                                 <button class="bg-transparent text-red-700 bg-white" onclick="deleteArticle(${article.id})">
                                     <i class="fas fa-trash"></i>
                                 </button>
