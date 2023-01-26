@@ -46,5 +46,15 @@ class User extends Person
         $this->password = $password;
     }
 
+    public function getAllArticles():array{
+
+        return Database::connect()->query("
+        select a.id as id, a.title as title, a.content as content, CAST(a.published_date AS DATE) as published_date, c.name as category,
+                       concat(a2.last_name , ' ', a2.first_name) as author, a2.id as id_author, c.id as id_category
+                from article a 
+                    inner join author a2 on a.author_id = a2.id
+                    inner join category c on a.category_id = c.id ")
+            ->fetchAll();
+    }
 
 }

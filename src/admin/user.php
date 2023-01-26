@@ -42,7 +42,7 @@ include "./includes/sidebar.php";
         </div>
 
 
-        <h1 class="text-2xl my-6">Users (<?= $_SESSION['admin']->getNumRowOfTable('user')?>) </h1>
+        <h1 class="text-2xl my-6" >Users (<?= $_SESSION['admin']->getNumRowOfTable('user')?>) </h1>
 
         <div>
             <?php
@@ -194,6 +194,8 @@ include "./includes/sidebar.php";
 <?php
 include "./includes/scripts-js.php";
 ?>
+
+<script src="../../assets/scripts/js/user.service.js"></script>
 
 </body>
 </html>
