@@ -62,7 +62,7 @@ class Admin extends Person
                     inner join category c on a.category_id = c.id  
                          where a.id=$id 
                 
-                ")->fetch(PDO::FETCH_ASSOC);
+                ")->fetch();
     }
 
 
@@ -78,7 +78,7 @@ class Admin extends Person
                           a.title  like '%".$search."%' or  a.content  like '%".$search."%' 
                 order by $order
                     ")
-            ->fetchAll(PDO::FETCH_ASSOC)
+            ->fetchAll()
             ;
     }
 
@@ -117,14 +117,14 @@ class Admin extends Person
                     inner join category c on a.category_id = c.id 
                 order by $order $priority
                     ")
-            ->fetchAll(PDO::FETCH_ASSOC)
+            ->fetchAll()
         ;
     }
 
     public function getAllCategories(): array
     {
         return Database::connect()->query("select * from category ")
-            ->fetchAll(PDO::FETCH_ASSOC)
+            ->fetchAll()
         ;
     }
 
@@ -143,17 +143,23 @@ class Admin extends Person
 
     public function getAllUsers(): array
     {
-        return Database::connect()->query('select id, first_name, last_name, email from user')->fetchAll(PDO::FETCH_ASSOC);
+        return Database::connect()
+            ->query('select id, first_name, last_name, email from user')
+            ->fetchAll();
     }
 
     public function getAllAuthors(): array
     {
-        return Database::connect()->query('select * from author')->fetchAll(PDO::FETCH_ASSOC);
+        return Database::connect()
+            ->query('select * from author')
+            ->fetchAll();
     }
 
 
     public function getNumRowOfTable(string $table):int
     {
-        return Database::connect()->query("select count(`id`) as size from $table")->fetch(PDO::FETCH_ASSOC)['size'];
+        return Database::connect()
+            ->query("select count(*) as size from $table")
+            ->fetch()['size'];
     }
 }

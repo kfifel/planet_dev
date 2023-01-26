@@ -25,6 +25,7 @@ final class Database
         if(self::$conn === null ){
             try{
                 self::$conn = new PDO("mysql:host=".self::$host.";dbname=".self::$dbname.";", self::$user, self::$password);
+                self::$conn->setattribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
                 return self::$conn;
             }catch(PDOException $e){
                 die($e);

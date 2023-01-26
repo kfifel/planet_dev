@@ -5,12 +5,12 @@ class AdminController
 {
    public function getAllAuthor():array
    {
-       return Database::connect()->query("select * from author")->fetchAll(PDO::FETCH_ASSOC);
+       return Database::connect()->query("select * from author")->fetchAll();
    }
 
    public function getAllCategory():array
    {
-       return Database::connect()->query("select * from category")->fetchAll(PDO::FETCH_ASSOC);
+       return Database::connect()->query("select * from category")->fetchAll();
    }
 
    public function createArticles(array $articles):void
@@ -20,7 +20,12 @@ class AdminController
           $article['title'] = htmlspecialchars( $article['title'] );
           $article['content'] = htmlspecialchars( $article['content'] );
           try {
-                $_SESSION['admin']->createArticle($article);
+                if(!$_SESSION['admin']->createArticle($article))
+                {
+                    $res = 'false';
+                    break;
+                }
+
               }
               catch (Exception $e){
                   $res = 'false';

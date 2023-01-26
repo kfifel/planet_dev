@@ -9,12 +9,15 @@ class auth{
 
     public function login():void{
         session_start();
-        $email = $_POST['email'];
+        $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
         $password = hash('sha256', $_POST['password']);
 
-        $query = "select * from admin where `email` = '".$email."' and `password` = '".$password."'";
-        $res = Database::connect()->query($query)->fetch(PDO::FETCH_ASSOC);
-
+        $query = "select * from admin where `email` = :email and `password` = :password";
+        $sth = Database::connect()->prepare($query);
+        $sth->bindParam(':email', $email);
+        $sth->bindParam(':password', $password);
+        $sth->execute();
+        $res = $sth->fetch();
         if($res)
         {
             $_SESSION['admin'] = new Admin(...$res);
@@ -24,7 +27,7 @@ class auth{
         else
         {
             $query = "select * from user where `email` = '".$email."' and `password` = '".$password."'";
-            $res = Database::connect()->query($query)->fetch(PDO::FETCH_ASSOC);
+            $res = Database::connect()->query($query)->fetch();
 
             if($res)
             {

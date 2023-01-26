@@ -3,7 +3,7 @@
 class CategoryController
 {
     public function getAllCategories():array{
-        return Database::connect()->query("select * from category")->fetchAll(PDO::FETCH_ASSOC);
+        return Database::connect()->query("select * from category")->fetchAll();
     }
 
     public function createCategory(Category $category):bool{
@@ -31,7 +31,7 @@ class CategoryController
     public static function searchCategories(string $data):array
     {
         $query = "select * from category where name like '%".$data."%'";
-        return Database::connect()->query($query)->fetchAll(PDO::FETCH_ASSOC);
+        return Database::connect()->query($query)->fetchAll();
     }
 }
 
