@@ -10,7 +10,7 @@ class Admin extends Person
     public AdminController $adminController;
     public CategoryController $categoryController;
 
-    public function __construct(int|null $id, string $first_name, string $last_name, string $password = '', string $email ='')
+    public function __construct(int|null $id, string $first_name, string $last_name, string $email ='', string $password = '')
     {
         $this->email = $email;
         $this->password = hash("sha256", $password);

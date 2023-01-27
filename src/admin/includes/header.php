@@ -1,7 +1,8 @@
 <?php
 
     require_once "../includes/autoload.php";
-    session_start();
+    if(!session_id())
+        session_start();
 
 if(!isset($_SESSION['admin']))
     header("Location: http://localhost:8080");

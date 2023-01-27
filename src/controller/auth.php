@@ -8,7 +8,10 @@ class auth{
     }
 
     public function login():void{
-        session_start();
+
+        if(!session_id())
+            session_start();
+
         $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
         $password = hash('sha256', $_POST['password']);
 
