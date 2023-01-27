@@ -340,7 +340,7 @@ function searchArticles() {
 
     let searchArticleValue = document.getElementById("search-article").value;
     let reg = /^[a-zA-Z0-9\s]+$/
-    if(reg.test(searchArticleValue) || searchArticleValue === '' )
+    if(reg.test(searchArticleValue))
     {
         document.getElementById("notify-search-article").innerText = "";
         getMapping(`http://localhost:8080/src/includes/router.php?searchArticle=${searchArticleValue}`)
