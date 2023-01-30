@@ -40,7 +40,7 @@ if(!session_id())
 
 $categoryController = new CategoryController();
 if(isset($_POST['save-category'])){
-    if( !empty($_POST['category-name']) && preg_match("/^[a-zA-Z0-9\s]+$/", $_POST['category-name'])) {
+    if( !empty($_POST['category-name']) && preg_match("/^[a-zA-Z0-9_\s]+$/", $_POST['category-name'])) {
         if($categoryController->createCategory(new Category(null, $_POST['category-name'])))
             $_SESSION['message'] = "Category has been created";
         else
